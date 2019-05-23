@@ -60,7 +60,7 @@ void CombinedMVAV2JetTagComputer::initialize(const JetTagComputerRecord & record
   }
   else {
     mvaID->initialize(
-        "Color:Silent:Error", mvaName,
+        "Color:Silent:Error", mvaName.c_str(),
         weightFile.fullPath(), variables, spectators, useGBRForest, useAdaBoost
     );
   }

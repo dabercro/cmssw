@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-mvaElectrons = cms.EDProducer("ElectronIdMVABased",
+mvaElectrons = cms.EDFilter("ElectronIdMVABased",
                             vertexTag = cms.InputTag('offlinePrimaryVertices'),
                             electronTag = cms.InputTag('gedGsfElectrons'),
                             HZZmvaWeightFile = cms.vstring(

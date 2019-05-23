@@ -19,7 +19,6 @@
 #include "TrackingTools/IPTools/interface/IPTools.h"
 #include "EgammaAnalysis/ElectronTools/interface/ElectronEffectiveArea.h"
 #include "DataFormats/Common/interface/RefToPtr.h"
-#include "FWCore/Utilities/interface/isFinite.h"
 #include <cstdio>
 #include <zlib.h>
 #endif
@@ -1012,7 +1011,7 @@ Double_t EGammaMvaEleEstimator::mvaValue(const reco::GsfElectron& ele,
   bool validKF= false; 
   reco::TrackRef myTrackRef = ele.closestCtfTrackRef();
   validKF = (myTrackRef.isAvailable());
-  validKF &= (myTrackRef.isNonnull());  
+  validKF = (myTrackRef.isNonnull());  
 
   // Pure tracking variables
   fMVAVar_fbrem           =  ele.fbrem();
@@ -1031,7 +1030,7 @@ Double_t EGammaMvaEleEstimator::mvaValue(const reco::GsfElectron& ele,
   // Pure ECAL -> shower shapes
   fMVAVar_see             =  ele.sigmaIetaIeta();    //EleSigmaIEtaIEta
   std::vector<float> vCov = myEcalCluster.localCovariances(*(ele.superCluster()->seed())) ;
-  if (edm::isFinite(vCov[2])) fMVAVar_spp = sqrt (vCov[2]);   //EleSigmaIPhiIPhi
+  if (!isnan(vCov[2])) fMVAVar_spp = sqrt (vCov[2]);   //EleSigmaIPhiIPhi
   else fMVAVar_spp = 0.;    
 
   fMVAVar_etawidth        =  ele.superCluster()->etaWidth();
@@ -1147,7 +1146,7 @@ Double_t EGammaMvaEleEstimator::mvaValue(const reco::GsfElectron& ele,
   bool validKF= false; 
   reco::TrackRef myTrackRef = ele.closestCtfTrackRef();
   validKF = (myTrackRef.isAvailable());
-  validKF &= (myTrackRef.isNonnull());  
+  validKF = (myTrackRef.isNonnull());  
 
   // Pure tracking variables
   fMVAVar_fbrem           =  ele.fbrem();
@@ -1165,7 +1164,7 @@ Double_t EGammaMvaEleEstimator::mvaValue(const reco::GsfElectron& ele,
   // Pure ECAL -> shower shapes
   fMVAVar_see             =  ele.sigmaIetaIeta();    //EleSigmaIEtaIEta
   std::vector<float> vCov = myEcalCluster.localCovariances(*(ele.superCluster()->seed())) ;
-  if (edm::isFinite(vCov[2])) fMVAVar_spp = sqrt (vCov[2]);   //EleSigmaIPhiIPhi
+  if (!isnan(vCov[2])) fMVAVar_spp = sqrt (vCov[2]);   //EleSigmaIPhiIPhi
   else fMVAVar_spp = 0.;    
 
 
@@ -1252,7 +1251,7 @@ Double_t EGammaMvaEleEstimator::mvaValue(const pat::Electron& ele,
   bool validKF= false;
   reco::TrackRef myTrackRef = ele.closestCtfTrackRef();
   validKF = (myTrackRef.isAvailable());
-  validKF &= (myTrackRef.isNonnull());
+  validKF = (myTrackRef.isNonnull());
 
   // Pure tracking variables
   fMVAVar_fbrem           =  ele.fbrem();
@@ -1382,7 +1381,7 @@ Double_t EGammaMvaEleEstimator::mvaValue(const pat::Electron& ele,
   bool validKF= false; 
   reco::TrackRef myTrackRef = ele.closestCtfTrackRef();
   validKF = (myTrackRef.isAvailable());
-  validKF &= (myTrackRef.isNonnull());  
+  validKF = (myTrackRef.isNonnull());  
 
   // Pure tracking variables
   fMVAVar_fbrem           =  ele.fbrem();
@@ -1695,7 +1694,7 @@ Double_t EGammaMvaEleEstimator::IDIsoCombinedMvaValue(const reco::GsfElectron& e
   bool validKF= false; 
   reco::TrackRef myTrackRef = ele.closestCtfTrackRef();
   validKF = (myTrackRef.isAvailable());
-  validKF &= (myTrackRef.isNonnull());  
+  validKF = (myTrackRef.isNonnull());  
 
   // Pure tracking variables
   fMVAVar_fbrem           =  (ele.fbrem() < -1. ) ? -1. : ele.fbrem();
@@ -1716,7 +1715,7 @@ Double_t EGammaMvaEleEstimator::IDIsoCombinedMvaValue(const reco::GsfElectron& e
   // Pure ECAL -> shower shapes
   fMVAVar_see             =  ele.sigmaIetaIeta();    //EleSigmaIEtaIEta
   std::vector<float> vCov = myEcalCluster.localCovariances(*(ele.superCluster()->seed())) ;
-  if (edm::isFinite(vCov[2])) fMVAVar_spp = sqrt (vCov[2]);   //EleSigmaIPhiIPhi
+  if (!isnan(vCov[2])) fMVAVar_spp = sqrt (vCov[2]);   //EleSigmaIPhiIPhi
   else fMVAVar_spp = 0.;    
 
   fMVAVar_etawidth        =  ele.superCluster()->etaWidth();
@@ -1990,11 +1989,7 @@ void EGammaMvaEleEstimator::bindVariables() {
   
   
   // Needed for a bug in CMSSW_420, fixed in more recent CMSSW versions
-#ifndef STANDALONE
-  if(edm::isNotFinite(fMVAVar_spp))
-#else
   if(std::isnan(fMVAVar_spp))
-#endif
     fMVAVar_spp = 0.;	
   
   

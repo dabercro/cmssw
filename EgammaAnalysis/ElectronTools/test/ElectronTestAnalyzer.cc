@@ -46,7 +46,6 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "TrackingTools/IPTools/interface/IPTools.h"
-#include "FWCore/Utilities/interface/isFinite.h"
 
 #include <cmath>
 #include <vector>
@@ -514,7 +513,7 @@ void ElectronTestAnalyzer::myVar(const reco::GsfElectron& ele,
 
   myMVAVar_see             =  ele.sigmaIetaIeta();    //EleSigmaIEtaIEta
   std::vector<float> vCov = myEcalCluster.localCovariances(*(ele.superCluster()->seed())) ;
-  if (edm::isFinite(vCov[2])) myMVAVar_spp = sqrt (vCov[2]);   //EleSigmaIPhiIPhi
+  if (!isnan(vCov[2])) myMVAVar_spp = sqrt (vCov[2]);   //EleSigmaIPhiIPhi
   else myMVAVar_spp = 0.;
   myMVAVar_etawidth        =  ele.superCluster()->etaWidth();
   myMVAVar_phiwidth        =  ele.superCluster()->phiWidth();
@@ -649,7 +648,7 @@ void ElectronTestAnalyzer::myBindVariables() {
 
 
   // Needed for a bug in CMSSW_420, fixed in more recent CMSSW versions
-  if(edm::isNotFinite(myMVAVar_spp))
+  if(isnan(myMVAVar_spp))
     myMVAVar_spp = 0.;
 
 

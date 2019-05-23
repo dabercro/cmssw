@@ -35,8 +35,3 @@ using EGExtraInfoModifierFromVIDCutFlowResultValueMaps = EGExtraInfoModifierFrom
 DEFINE_EDM_PLUGIN(ModifyObjectValueFactory,
 		  EGExtraInfoModifierFromVIDCutFlowResultValueMaps,
 		  "EGExtraInfoModifierFromVIDCutFlowResultValueMaps");
-
-using EGExtraInfoModifierFromEGIDValueMaps = EGExtraInfoModifierFromValueMaps<float,egmodifier::EGID>;
-DEFINE_EDM_PLUGIN(ModifyObjectValueFactory,
-		  EGExtraInfoModifierFromEGIDValueMaps,
-		  "EGExtraInfoModifierFromEGIDValueMaps");

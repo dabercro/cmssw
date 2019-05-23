@@ -25,11 +25,11 @@ namespace reco {
       m_jetCrystalsAssociation( jetCrystals ) { }
 
     // destructor
-    ~EMIsolatedTauTagInfo() override { };
-    EMIsolatedTauTagInfo* clone() const override { return new EMIsolatedTauTagInfo( * this ); }
+    virtual ~EMIsolatedTauTagInfo() { };
+    virtual EMIsolatedTauTagInfo* clone() const { return new EMIsolatedTauTagInfo( * this ); }
 
     // get the jet from the jetTag
-    edm::RefToBase<Jet>       jet()                  const override { return m_jetCrystalsAssociation->first;  }
+    virtual edm::RefToBase<Jet>       jet()                  const { return m_jetCrystalsAssociation->first;  }
     virtual EMLorentzVectorRefVector  lorentzVectorRecHits() const { return m_jetCrystalsAssociation->second; }
     const JetCrystalsAssociationRef & jcaRef()               const { return m_jetCrystalsAssociation; }
 

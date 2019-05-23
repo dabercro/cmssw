@@ -60,14 +60,14 @@ inline bool equals(const edm::RefToBase<Jet> &j1, const edm::RefToBase<Jet> &j2)
 class DeepCMVATagInfoProducer : public edm::stream::EDProducer<> {
 public:
 	explicit DeepCMVATagInfoProducer(const edm::ParameterSet&);
-	~DeepCMVATagInfoProducer() override;
+	~DeepCMVATagInfoProducer();
 
 	static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
 private:
-	void beginStream(edm::StreamID) override {}
-	void produce(edm::Event&, const edm::EventSetup&) override;
-	void endStream() override {}
+	virtual void beginStream(edm::StreamID) override {}
+	virtual void produce(edm::Event&, const edm::EventSetup&) override;
+	virtual void endStream() override {}
 
 	// ----------member data ---------------------------
 	const edm::EDGetTokenT< std::vector<reco::ShallowTagInfo> > deepNNSrc_;

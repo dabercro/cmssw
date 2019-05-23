@@ -22,7 +22,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/stream/EDProducer.h"
+#include "FWCore/Framework/interface/stream/EDFilter.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -54,7 +54,7 @@ namespace gsfidhelper {
   };
 }
 
-class ElectronIdMVABased : public edm::stream::EDProducer< edm::GlobalCache<gsfidhelper::HeavyObjectCache> > {
+class ElectronIdMVABased : public edm::stream::EDFilter< edm::GlobalCache<gsfidhelper::HeavyObjectCache> > {
 public:
   explicit ElectronIdMVABased(const edm::ParameterSet&, const gsfidhelper::HeavyObjectCache*);
   ~ElectronIdMVABased() override;
@@ -69,7 +69,7 @@ public:
   }
   
 private:
-  void produce(edm::Event&, const edm::EventSetup&) override;
+  bool filter(edm::Event&, const edm::EventSetup&) override;
   
   
   // ----------member data ---------------------------
@@ -119,7 +119,7 @@ ElectronIdMVABased::~ElectronIdMVABased()
 //
 
 // ------------ method called on each new Event  ------------
-void ElectronIdMVABased::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
+bool ElectronIdMVABased::filter(edm::Event& iEvent, const edm::EventSetup& iSetup) {
   using namespace edm;
 
   constexpr double etaEBEE = 1.485;
@@ -153,6 +153,7 @@ void ElectronIdMVABased::produce(edm::Event& iEvent, const edm::EventSetup& iSet
     
   iEvent.put(std::move(mvaElectrons));
   
+  return true;
 }
 
 //define this as a plug-in

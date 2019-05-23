@@ -22,5 +22,4 @@ eidTight = eidCutBasedExt.clone()
 eidTight.electronIDType = 'classbased'
 eidTight.electronQuality = 'tight'
 
-eIdTask = cms.Task(eidRobustLoose,eidRobustTight,eidRobustHighEnergy,eidLoose,eidTight)
-eIdSequence = cms.Sequence(eIdTask)
+eIdSequence = cms.Sequence(eidRobustLoose+eidRobustTight+eidRobustHighEnergy+eidLoose+eidTight)

@@ -19,13 +19,13 @@ public:
       list_(list),
       jetRef_(jetref) { }
 
-  ~ShallowTagInfo(void) override { }
+  virtual ~ShallowTagInfo(void) { }
 
-  ShallowTagInfo* clone(void) const override { return new ShallowTagInfo(*this); }
+  virtual ShallowTagInfo* clone(void) const { return new ShallowTagInfo(*this); }
 
-  edm::RefToBase<Jet> jet(void) const override { return jetRef_; }
+  virtual edm::RefToBase<Jet> jet(void) const { return jetRef_; }
 
-  TaggingVariableList taggingVariables(void) const override { return list_; }
+  virtual TaggingVariableList taggingVariables(void) const { return list_; }
 
 protected:
   /*const*/ TaggingVariableList  list_;
